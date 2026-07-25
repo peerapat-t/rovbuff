@@ -48,3 +48,6 @@ Thumbs.db
 # Docker / deployment
 .docker/
 docker-compose.override.yml
+
+# Preserved nested frontend repository metadata
+apps/frontend/.git-frontend-backup/
