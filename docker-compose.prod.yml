@@ -1,0 +1,76 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      ROVBUFF_API_URL: http://ocrapi:8000
+      ROVBUFF_CHAT_URL: http://chatapi:8002
+      ROVBUFF_DB_PATH: /shared-data/rovbuff.db
+      ROVBUFF_INTERNAL_API_KEY: ${ROVBUFF_INTERNAL_API_KEY:?set ROVBUFF_INTERNAL_API_KEY}
+      ROVBUFF_AUTH_SECRET: ${ROVBUFF_AUTH_SECRET:?set ROVBUFF_AUTH_SECRET}
+      ROVBUFF_USERS_JSON: ${ROVBUFF_USERS_JSON:?set ROVBUFF_USERS_JSON}
+    volumes:
+      - rovbuff-data:/shared-data
+    expose:
+      - "3000"
+    depends_on:
+      - ocrapi
+      - chatapi
+
+  ocrapi:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend_ocr
+    restart: unless-stopped
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY:?set OPENAI_API_KEY}
+      ROVBUFF_INTERNAL_API_KEY: ${ROVBUFF_INTERNAL_API_KEY:?set ROVBUFF_INTERNAL_API_KEY}
+      ROVBUFF_FRONTEND_ORIGINS: https://rovbuff.phayathaibros.com
+    volumes:
+      - rovbuff-data:/app/data
+      - rovbuff-guides:/app/config/player_guides
+    expose:
+      - "8000"
+
+  chatapi:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend_chat
+    restart: unless-stopped
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY:?set OPENAI_API_KEY}
+      ROVBUFF_INTERNAL_API_KEY: ${ROVBUFF_INTERNAL_API_KEY:?set ROVBUFF_INTERNAL_API_KEY}
+      ROVBUFF_FRONTEND_ORIGINS: https://rovbuff.phayathaibros.com
+      ROVBUFF_DB_PATH: /shared-data/rovbuff.db
+      ROVBUFF_CHAT_DB_PATH: /chat-data/chat.db
+    volumes:
+      - rovbuff-data:/shared-data
+      - chat-data:/chat-data
+    expose:
+      - "8002"
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - frontend
+      - chatapi
+      - ocrapi
+
+volumes:
+  rovbuff-data:
+  chat-data:
+  rovbuff-guides:
+  caddy-data:
+  caddy-config:

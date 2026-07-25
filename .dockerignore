@@ -1,0 +1,16 @@
+.git
+.gitignore
+.env
+.env.*
+**/.env
+**/.env.*
+**/node_modules
+**/.next
+**/__pycache__
+**/*.pyc
+**/data
+.claude
+.runlogs
+*.log
+*.db
+*.sqlite*

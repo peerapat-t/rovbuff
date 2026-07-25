@@ -1,0 +1,50 @@
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+*.env
+!.env.example
+*.db
+*.sqlite
+*.sqlite3
+*.pem
+*.key
+*.crt
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+.ruff_cache/
+
+# Next.js
+apps/frontend/.next/
+apps/frontend/node_modules/
+apps/frontend/out/
+apps/frontend/tsconfig.tsbuildinfo
+
+# Data / generated artifacts
+*.log
+apps/backend_chat/data/
+apps/backend_ocr/data/*
+!apps/backend_ocr/data/example_upload/
+!apps/backend_ocr/data/example_upload/**
+apps/backend_ocr/config/player_guides/*
+notebooks/
+.claude/
+.runlogs/
+
+# Large local image variants
+apps/frontend/public/img/hero_img/*.png
+apps/frontend/public/img/item_img/*.png
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker / deployment
+.docker/
+docker-compose.override.yml
