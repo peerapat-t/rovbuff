@@ -1,11 +1,11 @@
-rovbuff.phayathaibros.com {
+rovbuff.phayathaibros.site {
     reverse_proxy frontend:3000
 }
 
-chatapi.rovbuff.phayathaibros.com {
+chatapi_rovbuff.phayathaibros.site {
     reverse_proxy chatapi:8002
 }
 
-ocrapi.rovbuff.phayathaibros.com {
+ocrapi_rovbuff.phayathaibros.site {
     reverse_proxy ocrapi:8000
 }
