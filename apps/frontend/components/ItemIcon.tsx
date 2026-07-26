@@ -5,7 +5,7 @@ import { useState } from "react"
 const IMAGE_EXTENSIONS = ["webp", "png", "jpg", "jpeg"] as const
 
 function encodeAssetName(name: string): string {
-  return encodeURIComponent(name).replace(/'/g, "%27")
+  return encodeURIComponent(name)
 }
 
 interface Props {
