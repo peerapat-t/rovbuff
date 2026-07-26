@@ -28,6 +28,7 @@ apps/frontend/tsconfig.tsbuildinfo
 
 # Data / generated artifacts
 *.log
+*.pptx
 apps/backend_chat/data/
 apps/backend_ocr/data/*
 !apps/backend_ocr/data/example_upload/
